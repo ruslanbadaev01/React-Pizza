@@ -1,12 +1,12 @@
 import { useState } from "react"
 
-function PizzaBlock({title, price}){
+function PizzaBlock({title, price,imageUrl,sizes,types}){
 
-  const [pizzaCount, setPizzaCount] = useState(0)
+  const [activeType,setActiveType] = useState(0)
+  const [activeSize,setActiveSize] = useState(0)
 
-  const onClickButton = () => {
-    setPizzaCount(pizzaCount + 1)
-  }
+
+  const typePizza = ["тонкое","традиционная"]
 
     return (
        <div className="pizza-block-wrapper">
@@ -14,25 +14,30 @@ function PizzaBlock({title, price}){
         <a href="/pizza/7">
           <img
             className="pizza-block__image"
-            src="https://dodopizza.azureedge.net/static/Img/Products/Pizza/ru-RU/d48003cd-902c-420d-9f28-92d9dc5f73b4.jpg"
+            src={imageUrl}
             alt="Pizza"
           />
           <h4 className="pizza-block__title">{title}</h4>
         </a>
         <div className="pizza-block__selector">
           <ul>
-            <li className="active">тонкое</li>
-            <li className="">традиционное</li>
+          {
+              types.map((typeId)=> (
+                <li onClick={()=>setActiveType(typeId)} className={activeType == typeId ? "active" : ""} >{typePizza[typeId]}</li>
+              ))
+            }
           </ul>
           <ul>
-            <li className="active">26 см.</li>
-            <li className="">30 см.</li>
-            <li className="">40 см.</li>
+            {
+              sizes.map((size,i)=> (
+                <li onClick={()=>setActiveSize(i)} className={activeSize == i ? "active" : ""}>{size} см.</li>
+              ))
+            }
           </ul>
         </div>
         <div className="pizza-block__bottom">
           <div className="pizza-block__price">от {price} ₽</div>
-          <button onClick={onClickButton} className="button button--outline button--add">
+          <button className="button button--outline button--add">
             <svg
               width="12"
               height="12"
@@ -46,7 +51,7 @@ function PizzaBlock({title, price}){
               ></path>
             </svg>
             <span>Добавить</span>
-            <i>{pizzaCount}</i>
+            <i>0</i>
           </button>
         </div>
       </div>
