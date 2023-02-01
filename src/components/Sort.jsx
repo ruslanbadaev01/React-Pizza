@@ -1,5 +1,19 @@
+import { useState } from "react";
+
+
 function Sort() {
-    return (
+
+const [vision, setVision] = useState(false)
+const [selectSort, setSelectSort] = useState(0)
+
+const onClickList = (i)=>{
+  setSelectSort(i)
+  setVision(false)
+}
+
+const menu = ['популярности','цене','алфавиту']
+
+  return (
       <div className="sort">
         <div className="sort__label">
           <svg
@@ -15,8 +29,19 @@ function Sort() {
             ></path>
           </svg>
           <b>Сортировка по:</b>
-          <span>популярности</span>
+          <span onClick={()=>setVision(!vision)} >{menu[selectSort]}</span>
         </div>
+        {
+          vision && (<div className="sort__popup">
+          <ul>
+          {
+              menu.map((name,i)=> (
+                <li key={i} onClick={()=>onClickList(i)} className={selectSort == i ? "active" : ""} >{name}</li>
+              ))
+            }
+          </ul>
+        </div>)
+        }
       </div>
     );
   }
